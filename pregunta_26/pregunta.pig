@@ -20,4 +20,14 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+data = LOAD 'data.csv' USING PigStorage(',') AS (
+    Id:int,
+    Name:chararray,
+    LastName:chararray,
+    Birth:chararray,
+    Color:chararray,
+    Value:int
+);
+s_data = FOREACH data GENERATE Name;
+f_data = FILTER s_data BY ((SUBSTRING(Name,0,1))>='M');
+STORE f_data INTO 'output' USING PigStorage(',');
